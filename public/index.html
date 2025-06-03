@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BubbleTalk</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="lobby" class="container">
+    <h1 class="title">BubbleTalk</h1>
+    <p class="subtitle">Secure, private, and fun chat rooms</p>
+    
+    <input id="roomName" placeholder="Room Name" type="text" autocomplete="off" />
+    <input id="password" placeholder="Password (optional)" type="password" autocomplete="off" />
+    <label class="checkbox-label">
+      <input type="checkbox" id="isPrivate" />
+      Private Room
+    </label>
+
+    <div class="button-group">
+      <button id="createRoom" class="btn btn-primary">Create Room</button>
+      <button id="joinRoom" class="btn btn-secondary">Join Room</button>
+    </div>
+
+    <div id="bannedPanel" class="hidden notice-panel">
+      <p><strong>You have been banned from this room.</strong></p>
+      <button id="goToLobbyFromBan" class="btn btn-warning">Please Refresh</button>
+    </div>
+
+    <div id="kickedPanel" class="hidden notice-panel">
+      <p><strong>You have been kicked from this room.</strong></p>
+      <button id="goToLobbyFromKick" class="btn btn-warning">Please Refresh</button>
+    </div>
+  </div>
+
+  <div id="chatRoom" class="hidden container">
+    <h2 id="roomTitle"></h2>
+    <div id="messages"></div>
+    <input id="messageInput" placeholder="Type a message..." type="text" autocomplete="off" />
+    <button id="sendMessage" class="btn btn-primary">Send</button>
+
+    <div id="adminPanel" class="hidden admin-panel">
+      <h3>Admin Panel</h3>
+      <input id="targetUserId" placeholder="User ID" autocomplete="off" />
+      <button id="kickUser" class="btn btn-danger">Kick</button>
+      <button id="banUser" class="btn btn-danger">Ban</button>
+    </div>
+
+    <div id="hostLeft" class="hidden notice-panel">
+      <p><strong>Host has left the room.</strong></p>
+      <button id="goToLobby" class="btn btn-warning">Go to Lobby</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
