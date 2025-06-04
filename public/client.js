@@ -55,6 +55,18 @@ socket.on('roomJoined', (roomName) => {
   chatRoom.classList.remove('hidden');
 });
 
+socket.on('newHost', (newHostId) => {
+  isHost = socket.id === newHostId;
+  if (isHost) {
+    adminPanel.classList.remove('hidden');
+    deleteRoom.classList.remove('hidden');
+  } else {
+    adminPanel.classList.add('hidden');
+    deleteRoom.classList.add('hidden');
+  }
+  appendSystemMessage(`User ${newHostId} is now the host.`);
+});
+
 socket.on('error', (message) => {
   alert(message);
 });
@@ -154,6 +166,7 @@ banUser.onclick = () => {
 };
 
 socket.on('kicked', () => {
+  appendSystemMessage(`User ${userId} left the room.`);
   chatRoom.classList.add('hidden');
   lobby.classList.remove('hidden');
   document.getElementById('kickedPanel').classList.remove('hidden');
@@ -161,6 +174,7 @@ socket.on('kicked', () => {
 });
 
 socket.on('banned', () => {
+  appendSystemMessage(`User ${userId} left the room.`);
   chatRoom.classList.add('hidden');
   lobby.classList.remove('hidden');
   document.getElementById('bannedPanel').classList.remove('hidden');
@@ -168,6 +182,7 @@ socket.on('banned', () => {
 });
 
 socket.on('hostLeft', () => {
+  appendSystemMessage(`Host has left the room and the server has closed.`);
   hostLeft.classList.remove('hidden');
   adminPanel.classList.add('hidden');
 });
