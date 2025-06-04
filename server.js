@@ -81,27 +81,18 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-  for (const [roomName, room] of Object.entries(rooms)) {
-    if (room.users.has(socket.id)) {
-      room.users.delete(socket.id);
-      io.to(roomName).emit('userLeft', socket.id);
-
-      if (room.hostId === socket.id) {
-        if (room.users.size > 0) {
-          // Pick a new host (e.g., first user in the Set)
-          const newHostId = room.users.values().next().value;
-          room.hostId = newHostId;
-          io.to(roomName).emit('newHost', newHostId);
-          console.log(`Host left. New host for ${roomName} is ${newHostId}`);
-        } else {
+    for (const [roomName, room] of Object.entries(rooms)) {
+      if (room.users.has(socket.id)) {
+        room.users.delete(socket.id);
+        io.to(roomName).emit('userLeft', socket.id);
+        if (room.hostId === socket.id) {
+          io.to(roomName).emit('hostLeft');
           delete rooms[roomName];
-          console.log(`Room ${roomName} deleted because empty`);
         }
       }
     }
-  }
+  });
 });
-}),
 
 server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
